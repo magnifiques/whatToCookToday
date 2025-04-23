@@ -8,3 +8,4 @@ chromadb
 accelerate
 langchain-community
 langchain-core
+gdown
