@@ -7,7 +7,7 @@ import os
 import zipfile
 import gdown
 
-CHROMA_DIR = "./chroma-db-langchain"  s
+CHROMA_DIR = "./chroma-db-langchain"  
 ZIP_PATH = "chroma_db.zip"
 DRIVE_FILE_ID = "1rvD_Ic9ojmx3ORaut2jxgagwLn0bE2cJ"
 
