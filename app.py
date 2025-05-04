@@ -54,16 +54,27 @@ example_list = [
 demo = gr.Interface(
     fn=get_response,  # Function to call
     inputs="text",     # Input type
-    outputs="text",    # Output type
-    title="WhatToCookToday",  # Title of the interface
-    description="""  
-Welcome to **WhatToCookToday**! 🍳
-Just type the ingredients you have, and we'll suggest a recipe you can make in an instant.  
-For example, you can try typing:
+    outputs=gr.Textbox(lines=10, label="Suggested Recipes"),   
+    title="WhatToCookToday", 
+    description="""Welcome to WhatToCookToday! 🍳  
+Struggling to decide what to cook with the ingredients you already have?  
+we've got you covered.
 
-1. **"I have tomato and pasta, what should I cook?"**
-2. **"I have chicken and potatoes, what can I make?"**
-3. **"I have rice and beans, any recipe ideas?"**
+Just tell us what’s in your kitchen, and we’ll instantly suggest a delicious recipes you can make with those ingredients.  
+
+You don’t need to search endlessly, we turn your pantry into a personalized recipe book!
+
+How to use it:  
+- Simply type the ingredients you have, like "I have tomatoes and pasta, what can I cook?"  
+- You can list multiple ingredients in any order or phrasing.  
+- The assistant will respond with a recipe tailored to what you’ve got.
+
+Example prompts you can try:  
+1. "I have tomato and pasta, what should I cook?"  
+2. "I have chicken and potatoes, what can I make?"  
+3. "I have rice and beans, any recipe ideas?"
+
+⏱️ Fast. 🍲 Simple. 🧠 Smart.
 """,  
     article=article,
     examples=example_list
