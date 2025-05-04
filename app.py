@@ -15,7 +15,7 @@ DRIVE_FILE_ID = os.getenv("DRIVE_FILE_ID")
 def download_and_extract_chroma():
     if not os.path.exists(CHROMA_DIR):  # avoid re-download
         print("Downloading Chroma DB...")
-        url = f"https://drive.google.com/uc?id={DRIVE_FILE_ID}&confirm=t"
+        url = f"https://drive.google.com/uc?id={DRIVE_FILE_ID}"
         gdown.download(url, ZIP_PATH, quiet=False)
 
         print("Extracting...")
