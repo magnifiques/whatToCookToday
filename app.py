@@ -41,14 +41,34 @@ def get_response(query):
     response = format_recipes(raw_context)
     return response
 
+
+article = "Created with 🤎 (and a mixture of mathematics, statistics, and tons of calculations 👩🏽‍🔬) by Arpit Vaghela [GitHub](https://github.com/magnifiques)"
+
+example_list = [
+    ["I have tomato and pasta, what should I cook?"],
+    ["I have chicken and potatoes, what can I make?"],
+    ["I have rice and beans, any recipe ideas?"]
+]
+
 # Gradio Interface
-iface = gr.Interface(
+demo = gr.Interface(
     fn=get_response,  # Function to call
     inputs="text",     # Input type
     outputs="text",    # Output type
-    title="Smart Cooking Assistant",  # Title of the interface
-    description="Ask the assistant for recipes based on available ingredients!"
+    title="WhatToCookToday",  # Title of the interface
+    description="""  
+Welcome to **WhatToCookToday**! 🍳
+Just type the ingredients you have, and we'll suggest a recipe you can make in an instant.  
+For example, you can try typing:
+
+1. **"I have tomato and pasta, what should I cook?"**
+2. **"I have chicken and potatoes, what can I make?"**
+3. **"I have rice and beans, any recipe ideas?"**
+""",  
+    article=article,
+    examples=example_list
 )
 
 if __name__ == "__main__":
-    iface.launch()
+    demo.launch(debug=False, # print errors locally?
+            share=True)
