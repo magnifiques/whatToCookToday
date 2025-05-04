@@ -8,7 +8,9 @@ import gdown
 
 CHROMA_DIR = "./chroma-db-langchain"  
 ZIP_PATH = "chroma_db.zip"
-DRIVE_FILE_ID = "18lfl-RBbSUZdTuRTxF_cUEMlzHeHXyc7"
+
+# Access the secret key
+DRIVE_FILE_ID = os.getenv("DRIVE_FILE_ID")
 
 def download_and_extract_chroma():
     if not os.path.exists(CHROMA_DIR):  # avoid re-download
