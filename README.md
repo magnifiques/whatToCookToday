@@ -1,6 +1,6 @@
 ---
 title: Whattocooktoday
-emoji: 🌖
+emoji: 👩🏽‍🍳
 colorFrom: green
 colorTo: green
 sdk: gradio
