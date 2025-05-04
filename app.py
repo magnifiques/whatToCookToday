@@ -54,7 +54,8 @@ example_list = [
 demo = gr.Interface(
     fn=get_response,  # Function to call
     inputs="text",     # Input type
-    outputs=gr.Textbox(lines=10, label="Suggested Recipes"),   
+    outputs="markdown",
+    # outputs=gr.Textbox(lines=10, label="Suggested Recipes"),   
     title="WhatToCookToday", 
     description="""Welcome to WhatToCookToday! 🍳  
 Struggling to decide what to cook with the ingredients you already have?  
