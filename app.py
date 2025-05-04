@@ -1,6 +1,5 @@
-
 import gradio as gr
-from langchain_utils import generate_answer_langchain
+from generate_results import format_recipes
 from chroma_utils import get_retriever
 
 import os
@@ -9,7 +8,7 @@ import gdown
 
 CHROMA_DIR = "./chroma-db-langchain"  
 ZIP_PATH = "chroma_db.zip"
-DRIVE_FILE_ID = "1rvD_Ic9ojmx3ORaut2jxgagwLn0bE2cJ"
+DRIVE_FILE_ID = "18lfl-RBbSUZdTuRTxF_cUEMlzHeHXyc7"
 
 def download_and_extract_chroma():
     if not os.path.exists(CHROMA_DIR):  # avoid re-download
@@ -33,7 +32,11 @@ download_and_extract_chroma()
 def get_response(query):
     # Call generate_answer_langchain with the retriever and model setup
     retriever = get_retriever()
-    response = generate_answer_langchain(query, retriever)
+    
+    docs = retriever.invoke(query)
+    raw_context = "\n\n".join([doc.page_content for doc in docs])
+
+    response = format_recipes(raw_context)
     return response
 
 # Gradio Interface

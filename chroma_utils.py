@@ -1,4 +1,3 @@
-
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 
@@ -7,7 +6,6 @@ def get_chroma_db():
     embedding_function = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
-
 
     vectordb = Chroma(
         persist_directory="./chroma-db-langchain",
@@ -18,5 +16,5 @@ def get_chroma_db():
 def get_retriever():
     # Returns a retriever object for querying the Chroma DB
     vectordb = get_chroma_db()
-    retriever = vectordb.as_retriever()
+    retriever = vectordb.as_retriever(search_kwargs={"k": 3})
     return retriever
