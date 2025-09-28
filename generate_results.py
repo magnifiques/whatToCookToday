@@ -1,54 +1,31 @@
 import re
+import os
+from openai import OpenAI
 
-def format_recipes(raw_text):
-    # Split based on "Title:"
-    recipe_chunks = re.split(r'(?=Title:)', raw_text)
-    formatted = []
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
-    intro = "👩‍🍳 Here are some delicious recipe suggestions based on your ingredients!\n"
-    outro = "\n🍽️ Hope one of these hits the spot!"
+def format_recipes(query, raw_context):
+    prompt = f"""
+    You are a helpful cooking assistant.
+    The user asked: {query}
 
-    for i, chunk in enumerate(recipe_chunks[:3]):  # Limit to 3 recipes
-        if not chunk.strip():
-            continue
+    Here are some relevant recipes from the database:
+    {raw_context}
 
-        # Extract title
-        title_match = re.search(r'Title:\s*(.*)', chunk)
-        title = title_match.group(1).strip() if title_match else "N/A"
+    Please:
+    1. Summarize their ingredients clearly.
+    2. Rewrite the steps in a beginner-friendly, easy-to-follow way.
+    3. Keep the tone warm and encouraging, like you're guiding a new cook.
+    """
 
-        # Extract ingredients
-        ingredients_match = re.search(r'Ingredients:\s*(.*?)(?=\n\w+:|$)', chunk, re.DOTALL)
-        ingredients_raw = ingredients_match.group(1).strip() if ingredients_match else "N/A"
 
-        # Capitalize first letter of each word in each ingredient
-        ingredients = ", ".join(
-            word.strip().title() for word in ingredients_raw.split(",")
-        )
 
-        # Extract instructions
-        instructions_match = re.search(r'Instructions:\s*(.*?)(?=\n\w+:|$)', chunk, re.DOTALL)
-        instructions_raw = instructions_match.group(1).strip() if instructions_match else "N/A"
-        
-        # Split into lines or sentences while keeping phrases like 'medium-high' intact
-        raw_steps = re.split(r'(?<!\w)(?=\n|•|\-|\.)', instructions_raw)
-        
-        # Clean up each step and remove non-letter characters
-        instruction_steps = [step.strip(" -.()") for step in raw_steps if step.strip() and re.search(r'[a-zA-Z]', step)]
-        
-        # Join together hyphenated words like "medium-high" into one step
-        instruction_steps = [re.sub(r'(\b\w+-\w+\b)', lambda m: m.group(0), step) for step in instruction_steps]
-        
-        # Format steps with emoji bullets
-        instructions = "\n".join(f"- {step}" for step in instruction_steps)
-
-        # Format the recipe
-        formatted.append(f"""🍲 Recipe {i}: {title}
-
-🧂 Ingredients: {ingredients}
-        
-👨‍🍳 Instructions - Step-by-step to cook it right:\n
-{instructions}\n
-"""
-)
-
-    return f"{intro}\n\n" + "\n\n".join(formatted) + f"\n\n{outro}"
+    with client.chat.completions.stream(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+    ) as stream:
+        for event in stream:
+            if event.type == "message.delta":
+                yield event.delta  # send partial text to Gradio

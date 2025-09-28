@@ -38,9 +38,8 @@ def get_response(query):
     docs = retriever.invoke(query)
     raw_context = "\n\n".join([doc.page_content for doc in docs])
 
-    response = format_recipes(raw_context)
-    return response
-
+    return format_recipes(query, raw_context)
+    
 
 article = "Created with 🤎 (and a mixture of mathematics, statistics, and tons of calculations 👩🏽‍🔬) by Arpit Vaghela [GitHub](https://github.com/magnifiques)"
 
@@ -77,7 +76,8 @@ Example prompts you can try:
 ⏱️ Fast. 🍲 Simple. 🧠 Smart.
 """,  
     article=article,
-    examples=example_list
+    examples=example_list,
+    live=True
 )
 
 if __name__ == "__main__":
