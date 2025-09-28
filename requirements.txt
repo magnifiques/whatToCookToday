@@ -1,6 +1,8 @@
 transformers
 torch
 langchain
+langchain-huggingface
+langchain_chroma
 sentence-transformers
 gradio
 bitsandbytes
@@ -8,6 +10,7 @@ chromadb
 accelerate
 langchain-community
 langchain-core
+chromadb
 gdown
 python-dotenv
 openai

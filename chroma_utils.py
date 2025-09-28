@@ -1,12 +1,11 @@
-from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
+import chromadb
+from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def get_chroma_db():
     
     embedding_function = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2",
-        device="cpu"
-    )
+        model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     vectordb = Chroma(
         persist_directory="./chroma-db-langchain",
