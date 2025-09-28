@@ -101,9 +101,9 @@ with gr.Blocks(
         max-height: 600px;
         overflow-y: auto;
         padding: 20px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid #212121;
         border-radius: 8px;
-        background-color: #fafafa;
+        background-color: #393E46;
     }
     """
 ) as demo:
