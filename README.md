@@ -4,6 +4,8 @@
 
 WhatToCookToday is an AI-powered recipe recommendation system that helps you discover delicious recipes based on the ingredients you have in your kitchen. Simply tell us what's available, and we'll instantly suggest personalized recipes you can make right now.
 
+<img width="1208" height="1228" alt="huggingface co_spaces_vapit_whattocooktoday" src="https://github.com/user-attachments/assets/292424a0-24a6-4303-a100-b602c52216e1" />
+
 ## 🎯 Problem Solved
 
 **Food Waste & Meal Planning Challenge:**
