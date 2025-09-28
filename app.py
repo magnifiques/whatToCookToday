@@ -92,62 +92,6 @@ example_list = [
 #         debug=False,
 #         share=True)
 
-import gradio as gr
-from generate_results import format_recipes
-from chroma_utils import get_retriever
-
-import os
-import zipfile
-import gdown
-
-CHROMA_DIR = "./chroma-db-langchain"  
-ZIP_PATH = "chroma_db.zip"
-
-# Access the secret key
-DRIVE_FILE_ID = os.getenv("DRIVE_FILE_ID")
-
-def download_and_extract_chroma():
-    if not os.path.exists(CHROMA_DIR):  # avoid re-download
-        print("Downloading Chroma DB...")
-        url = f"https://drive.google.com/uc?id={DRIVE_FILE_ID}"
-        gdown.download(url, ZIP_PATH, quiet=False)
-
-        print("Extracting...")
-        with zipfile.ZipFile(ZIP_PATH, "r") as zip_ref:
-            zip_ref.extractall(CHROMA_DIR)
-
-        print("Chroma DB ready.")
-        
-        # Clean up the zip file after extraction
-        if os.path.exists(ZIP_PATH):
-            os.remove(ZIP_PATH)
-    else:
-        print("Chroma DB already exists, skipping download.")
-
-def get_response(query):
-    try:
-        # Initialize ChromaDB on first use instead of at module level
-        download_and_extract_chroma()
-        
-        # Call generate_answer_langchain with the retriever and model setup
-        retriever = get_retriever()
-        
-        docs = retriever.invoke(query)
-        raw_context = "\n\n".join([doc.page_content for doc in docs])
-
-        return format_recipes(query, raw_context)
-    
-    except Exception as e:
-        return f"**Error:** Sorry, there was an error processing your request: {str(e)}"
-
-article = "Created with 🤎 (and a mixture of mathematics, statistics, and tons of calculations 👩🏽‍🔬) by Arpit Vaghela [GitHub](https://github.com/magnifiques)"
-
-example_list = [
-    ["I have tomato and pasta, what should I cook?"],
-    ["I have chicken and potatoes, what can I make?"],
-    ["I have rice and beans, any recipe ideas?"]
-]
-
 # Create a custom Blocks interface for better control
 with gr.Blocks(
     title="WhatToCookToday",
