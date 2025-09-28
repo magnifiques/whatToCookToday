@@ -103,7 +103,7 @@ with gr.Blocks(
         padding: 20px;
         border: 1px solid #212121;
         border-radius: 8px;
-        background-color: #393E46;
+        background-color: #0E2148;
     }
     """
 ) as demo:
