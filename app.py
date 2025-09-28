@@ -78,7 +78,7 @@ Example prompts you can try:
 """,  
     article=article,
     examples=example_list,
-    live=True
+    live=False
 )
 
 if __name__ == "__main__":
