@@ -38,11 +38,9 @@ def get_response(query):
     docs = retriever.invoke(query)
     raw_context = "\n\n".join([doc.page_content for doc in docs])
 
-    # return "".join(format_recipes(query, raw_context))
+    return "".join(format_recipes(query, raw_context))
 
-    for chunk in format_recipes(query, raw_context):
-        if chunk and hasattr(chunk, "content"):
-            yield chunk.content
+    
 
 article = "Created with 🤎 (and a mixture of mathematics, statistics, and tons of calculations 👩🏽‍🔬) by Arpit Vaghela [GitHub](https://github.com/magnifiques)"
 
@@ -80,7 +78,7 @@ Example prompts you can try:
 """,  
     article=article,
     examples=example_list,
-    live=False
+    live=True
 )
 
 if __name__ == "__main__":
