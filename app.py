@@ -38,7 +38,10 @@ def get_response(query):
     docs = retriever.invoke(query)
     raw_context = "\n\n".join([doc.page_content for doc in docs])
 
-    return "".join(format_recipes(query, raw_context))
+    response = ""
+    for chunk in format_recipes(query, raw_context):
+        response += chunk
+        yield response
 
     
 
@@ -82,5 +85,8 @@ Example prompts you can try:
 )
 
 if __name__ == "__main__":
-    demo.launch(debug=False, # print errors locally?
-            share=True)
+    demo.launch(
+        server_name="0.0.0.0",  
+        server_port=7860,       
+        debug=False,
+        share=False)

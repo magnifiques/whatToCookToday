@@ -19,13 +19,23 @@ def format_recipes(query, raw_context):
     3. Keep the tone warm and encouraging, like you're guiding a new cook.
     """
 
+    try:
+        stream = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            stream=True
+        )
+        
+        # Collect all chunks into a single response
+        full_response = ""
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                full_response += chunk.choices[0].delta.content
+                
+        return full_response
+                
+    except Exception as e:
+        return f"Error generating response: {str(e)}"
 
-
-    with client.chat.completions.stream(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-    ) as stream:
-        for event in stream:
-            if event.type == "message.delta":
-                yield event.delta  # send partial text to Gradio
+   
